@@ -1,4 +1,4 @@
-# What problem you're solving
+# What problem I'm solving
 
 - I want to track my daily learning progress across topics like React, DS, TypeScript etc. with streaks, stats, and notes.
 
