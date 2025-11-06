@@ -6,6 +6,6 @@
 
 - Initially, for me. Later, maybe for other devs who struggle with consistency.
 
-# Your goal for MVP
+# my goal for MVP
 
 - User can log a learning session, see their streak, and view stats like total hours learned.
