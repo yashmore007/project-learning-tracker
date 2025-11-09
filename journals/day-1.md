@@ -25,8 +25,7 @@
 - ✅ Connected MongoDB database and tested production response
 - ✅ Fixed GitHub → Vercel sync issue after ~2 hours of debugging
 
-🔗 Repo: https://github.com/yashmore007/project-learning-tracker  
-(Will start linking specific commits from Day 2 onward)
+🔗 **Commit:** [docs: add Day 2 and 3 journal entry] https://github.com/yashmore007/project-learning-tracker/commit/be60a1ae6ad5de408495c379aa52bf0e00b13a48
 
 ---
 
