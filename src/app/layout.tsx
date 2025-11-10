@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "../components/ui/Navbar";
+import Userinfo from "../components/ui/Userinfo";
+import { SessionProvider } from "next-auth/react";
+import SignOutButton from "@/components/ui/Signoutbtn";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <SessionProvider>
+          <Navbar />
+          <Userinfo />
+          <SignOutButton />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );
