@@ -17,6 +17,10 @@
 - i built a fully functional google login system in my app.
 - i deployed the app on vercel and login system is working fine in production also
 
+**commit**:["docs: update day 4 journal"]https://github.com/yashmore007/project-learning-tracker/commit/f8316eca7077def7ebdfd99517f5c85d26696572
+
+**vercel**: https://my-learning-tracker.vercel.app
+
 ### 🐞 Problem I Faced & How I Solved It
 
 **Issue:** i was unable to get a logged in user data  
