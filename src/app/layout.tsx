@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "../components/ui/Navbar";
-import Userinfo from "../components/ui/Userinfo";
+import DashboardLayout from "../components/DashboardLayout";
 import { SessionProvider } from "next-auth/react";
-import SignOutButton from "@/components/ui/Signoutbtn";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import SidePanel from "@/components/SidePanel";
+import Topbar from "@/components/Topbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,10 +31,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <SessionProvider>
-          <Navbar />
-          <Userinfo />
-          <SignOutButton />
-          {children}
+          <SidebarProvider>
+            <SidePanel />
+            <main className="flex-1">
+              <Topbar />
+              {children}
+            </main>
+          </SidebarProvider>
         </SessionProvider>
       </body>
     </html>
