@@ -20,7 +20,7 @@
 
 - ✅ Built a Sidebar
 
-🔗 **Commit:**
+🔗 **Commit:** [feat:make navbar and sidebar] https://github.com/yashmore007/project-learning-tracker/commit/66bf735e32c4e454df6ad29b588cc41f2cbcd4f2
 
 ### 🐞 Problem I Faced & How I Solved It
 
