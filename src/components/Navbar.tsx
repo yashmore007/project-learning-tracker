@@ -2,7 +2,7 @@ import { signIn } from "@/auth";
 
 export default function Navbar() {
   return (
-    <div className="w-screen flex justify-center items-center h-20 bg-blue-300">
+    <div className="w-1/2 flex justify-center items-center h-20 bg-blue-300">
       <form
         action={async () => {
           "use server";
