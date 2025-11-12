@@ -26,7 +26,7 @@
 
 - Added Navbar, Sidebar, Heatmap, and Card components using shadcn/ui.
 
-🔗 **Commit:**
+🔗 **Commit:** [feat:complete dashboard ui] https://github.com/yashmore007/project-learning-tracker/commit/263cb6170eba81d978bdfd32cb45ae8c2b66fd68
 
 ### 🐞 Problem I Faced & How I Solved It
 
@@ -35,7 +35,8 @@
 
 Lesson: Always verify if a package is compatible with the tech stack before integrating it.
 
-### 🔥 Tomorrow’s Focus
+### 🎯 Next Focus (Tomorrow)
 
-- i will start working on logic.
-- i will save the data entered by user to mangodb atlas.
+- Start implementing logic.
+
+- Save user-entered data to MongoDB Atlas.
