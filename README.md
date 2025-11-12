@@ -34,10 +34,10 @@
 
 ## 🧠 Daily Dev Journal
 
-- I’m documenting the entire journey of building this app here 👇
+- I’m documenting the entire journey of building this app here
   🔗[my github journal](https://github.com/yashmore007/project-learning-tracker/tree/main/journals)
 
-- index of journals👇
+- index of journals
   🔗[index of journals](https://github.com/yashmore007/project-learning-tracker/blob/main/journal-index.md)
 
 ## 📸 Preview
