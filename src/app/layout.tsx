@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import SidePanel from "@/components/SidePanel";
 import Topbar from "@/components/Topbar";
+import MainDashboard from "@/components/MainDashboard";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
             <SidePanel />
             <main className="flex-1">
               <Topbar />
+              <MainDashboard />
               {children}
             </main>
           </SidebarProvider>
