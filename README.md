@@ -39,7 +39,9 @@
 
 ## 📸 Preview
 
-🔗 Live App: my-learning-tracker.vercel.app
+🔗[Live App](my-learning-tracker.vercel.app)
+
+## screenShots of the app
 
 ![Main dashboard](image.png)
 ![user input form](image-1.png)
