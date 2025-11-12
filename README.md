@@ -39,7 +39,7 @@
 
 ## 📸 Preview
 
-🔗[Live App](my-learning-tracker.vercel.app)
+🔗[Live App](https://my-learning-tracker.vercel.app/)
 
 ## screenShots of the app
 
