@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 
 export default function TodaysProgress() {
   return (
-    <Card className="w-screen sm:w-full sm:max-w-lg h-72 mt-4 shadow-sm border-none">
+    <Card className="w-screen sm:max-w-lg h-72 mt-4 shadow-sm border-none">
       <CardHeader>
         <CardTitle className="text-lg font-semibold mb-3 text-gray-800">
           Todays progress

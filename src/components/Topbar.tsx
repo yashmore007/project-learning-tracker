@@ -22,10 +22,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { ChartNoAxesColumn } from "lucide-react";
+import { auth } from "../auth";
+import { signOut } from "@/auth";
 
-const Topbar = () => {
+const Topbar = async () => {
+  const session = await auth();
+
   return (
-    <div className="w-screen sm:w-7xl">
+    <div className="w-screen sm:w-[80vw]">
       <Card className="rounded-none h-20 border-none">
         <CardHeader>
           <div className="flex items-center gap-9">
@@ -36,7 +40,7 @@ const Topbar = () => {
               </Avatar>
               <ChartNoAxesColumn className="sm:hidden" />
               <CardTitle className="hidden sm:block lg:text-lg">
-                Hey Yash!👋
+                <p>hey {session?.user?.name?.split(" ")[0]}!</p>
               </CardTitle>
             </div>
 
@@ -109,9 +113,20 @@ const Topbar = () => {
               </DialogContent>
             </Dialog>
 
-            <Button variant="outline" className="hover:bg-red-200">
-              Sign Out
-            </Button>
+            <form
+              action={async () => {
+                "use server";
+                await signOut({ redirectTo: "/" });
+              }}
+            >
+              <Button
+                type="submit"
+                variant="outline"
+                className="hover:bg-red-200"
+              >
+                Sign Out
+              </Button>
+            </form>
           </CardAction>
         </CardHeader>
       </Card>

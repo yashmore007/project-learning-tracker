@@ -31,16 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <SessionProvider>
-          <SidebarProvider>
-            <SidePanel />
-            <main className="flex-1">
-              <Topbar />
-              <MainDashboard />
-              {children}
-            </main>
-          </SidebarProvider>
-        </SessionProvider>
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );

@@ -10,7 +10,7 @@ import {
 
 const WhatsNext = () => {
   return (
-    <Card className="w-screen sm:w-full sm:max-w-lg h-72 mt-4 shadow-sm border-none">
+    <Card className="w-screen sm:max-w-lg h-72 mt-4 shadow-sm border-none">
       <CardHeader>
         <CardTitle className="text-lg font-semibold text-gray-800">
           Next topic
