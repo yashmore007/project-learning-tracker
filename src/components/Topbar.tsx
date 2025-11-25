@@ -1,3 +1,5 @@
+"use client";
+import { useRef, useState } from "react";
 import {
   Card,
   CardAction,
@@ -6,7 +8,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Dialog,
@@ -20,13 +21,44 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
-import { ChartNoAxesColumn } from "lucide-react";
-import { auth } from "../auth";
-import { signOut } from "@/auth";
+import { ChartNoAxesColumn, Flag } from "lucide-react";
+import { createEntry } from "@/app/actions/entryActions";
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import { useEntryStore } from "@/lib/store";
 
-const Topbar = async () => {
-  const session = await auth();
+const Topbar = () => {
+  const addEntries = useEntryStore((state) => state.addEntry);
+
+  const { data: session } = useSession();
+  const [error, setError] = useState("");
+
+  const [open, setOpen] = useState(false);
+  const formRef = useRef(null);
+
+  const handleSubmit = async (e) => {
+    console.log("handle submit called");
+    e.preventDefault();
+    try {
+      const formData = new FormData(e.target);
+      console.log(formData);
+
+      const hours = formData.get("hours");
+      const minutes = formData.get("minutes");
+
+      if (!hours && !minutes) {
+        setError("At least one field is required");
+        return;
+      }
+
+      const result = await createEntry(formData);
+      addEntries(result);
+      formRef.current?.reset();
+      setOpen(false);
+    } catch (err) {
+      console.log("Error in submitting the form", err);
+    }
+  };
 
   return (
     <div className="w-screen sm:w-[80vw]">
@@ -35,8 +67,10 @@ const Topbar = async () => {
           <div className="flex items-center gap-9">
             <div className="flex mt-1 gap-4 items-center">
               <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src={session?.user?.image || ""} />
+                <AvatarFallback>
+                  {session?.user?.name?.charAt(0) || "CN"}
+                </AvatarFallback>
               </Avatar>
               <ChartNoAxesColumn className="sm:hidden" />
               <CardTitle className="hidden sm:block lg:text-lg">
@@ -50,20 +84,16 @@ const Topbar = async () => {
             <CardDescription className="hidden lg:block">
               <p className="text-md">Total Hours: 120 | Streak: 5 days</p>
             </CardDescription>
-            {/* <div className="p-2 shadow-sm rounded-sm lg:flex items-center gap-2 hidden">
-              <Progress
-                value={33}
-                className="h-2 mb-1 w-60 bg-slate-200 [&>div]:bg-linear-to-r [&>div]:from-indigo-500 [&>div]:to-purple-600"
-              />
-              <span className="mb-1">Progress</span>
-            </div> */}
           </div>
 
           <CardAction className="flex items-center gap-4">
-            <Dialog>
-              <DialogTrigger className="hover:bg-gray-200 shadow-sm p-2 border border-black rounded-lg">
-                Log Learnings
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="shadow-sm">
+                  Log Learnings
+                </Button>
               </DialogTrigger>
+
               <DialogContent className="sm:max-w-[425px] bg-white border-none shadow-sm">
                 <DialogHeader>
                   <DialogTitle>Log your Learnings</DialogTitle>
@@ -71,62 +101,74 @@ const Topbar = async () => {
                     what did you achieve today?
                   </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4">
-                  <div className="grid gap-3">
-                    <Label htmlFor="name-1">
-                      🧠 What did you practice today?
-                    </Label>
-                    <Input id="name-1" name="name" />
-                  </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="username-1">⏱ How long?</Label>
-                    <Input type="number" id="username-1" name="username" />
-                  </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="username-1">⭐ Rate your day? </Label>
-                    <Slider
-                      defaultValue={[8]}
-                      max={10}
-                      min={0}
-                      step={1}
-                      className="cursor-pointer bg-gray-500 h-2 rounded-lg"
-                    />
-                    <div className="text-center p-2 shadow-sm rounded-lg">
-                      8/10
+
+                <form ref={formRef} onSubmit={handleSubmit}>
+                  <div className="grid gap-4">
+                    <div className="grid gap-3">
+                      <Label htmlFor="title">
+                        🧠 What did you practice today?
+                      </Label>
+                      <Input id="title" name="title" required />
+                    </div>
+
+                    <div className="grid gap-3">
+                      <Label htmlFor="hours">⏱ How long?</Label>
+                      <div className="flex gap-3">
+                        <Input
+                          onChange={() => {
+                            setError(false);
+                          }}
+                          type="number"
+                          id="hours"
+                          name="hours"
+                          placeholder="hours"
+                          min="0"
+                        />
+                        <Input
+                          onChange={() => {
+                            setError(false);
+                          }}
+                          type="number"
+                          id="minutes"
+                          name="minutes"
+                          placeholder="minutes"
+                          min="0"
+                          max="59"
+                        />
+                      </div>
+                      {error && (
+                        <p className="text-red-500 text-center">{error}</p>
+                      )}
+                    </div>
+
+                    <div className="grid gap-3">
+                      <Label htmlFor="notes">📝 Notes (optional)</Label>
+                      <Input type="text" id="notes" name="notes" />
                     </div>
                   </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="username-1">📝 Notes (optional)</Label>
-                    <Input type="text" id="username-1" name="username" />
-                  </div>
-                </div>
-                <DialogFooter>
-                  <DialogClose asChild>
-                    <Button className="cursor-pointer" variant="outline">
-                      Cancel
+
+                  <DialogFooter className="mt-4">
+                    <DialogClose asChild>
+                      <Button type="button" variant="outline">
+                        Cancel
+                      </Button>
+                    </DialogClose>
+                    <Button type="submit" variant="outline">
+                      Save changes
                     </Button>
-                  </DialogClose>
-                  <Button className="cursor-pointer" type="submit">
-                    Save changes
-                  </Button>
-                </DialogFooter>
+                  </DialogFooter>
+                </form>
               </DialogContent>
             </Dialog>
 
-            <form
-              action={async () => {
-                "use server";
-                await signOut({ redirectTo: "/" });
-              }}
+            <Button
+              onClick={() => signOut({ redirectTo: "/" })}
+              type="button"
+              variant="outline"
+              className="hover:bg-red-200"
             >
-              <Button
-                type="submit"
-                variant="outline"
-                className="hover:bg-red-200"
-              >
-                Sign Out
-              </Button>
-            </form>
+              Sign Out
+            </Button>
           </CardAction>
         </CardHeader>
       </Card>
