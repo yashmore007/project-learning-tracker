@@ -1,6 +1,20 @@
 import { create } from "zustand";
 
-export const useEntryStore = create((set) => ({
+type Entry = {
+  id: string;
+  title: string;
+  duration: number;
+  notes: string | null;
+  createdAt: Date;
+};
+
+interface EntryStore {
+  entries: Entry[];
+  setEntries: (entries: Entry[]) => void;
+  addEntry: (entry: Entry) => void;
+}
+
+export const useEntryStore = create<EntryStore>((set) => ({
   entries: [],
 
   setEntries: (entries) => set({ entries }),

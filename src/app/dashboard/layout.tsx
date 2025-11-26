@@ -1,4 +1,3 @@
-import { SidebarProvider } from "@/components/ui/sidebar";
 import SidePanel from "@/components/SidePanel";
 import Topbar from "@/components/Topbar";
 
@@ -9,7 +8,7 @@ export default function DashboardLayout({
 }) {
   return (
     <section>
-      <div className="flex flex-1">
+      <div className="flex">
         <SidePanel />
         <div>
           <Topbar />

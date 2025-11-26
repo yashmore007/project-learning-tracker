@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ChartNoAxesColumn, Flag } from "lucide-react";
+import { ChartNoAxesColumn } from "lucide-react";
 import { createEntry } from "@/app/actions/entryActions";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
@@ -34,13 +34,13 @@ const Topbar = () => {
   const [error, setError] = useState("");
 
   const [open, setOpen] = useState(false);
-  const formRef = useRef(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log("handle submit called");
     e.preventDefault();
     try {
-      const formData = new FormData(e.target);
+      const formData = new FormData(e.currentTarget);
       console.log(formData);
 
       const hours = formData.get("hours");
@@ -79,7 +79,7 @@ const Topbar = () => {
             </div>
 
             <CardDescription className="hidden lg:block ">
-              Level 3 – Consistent Learner 🔥
+              Level 3 - Consistent Learner 🔥
             </CardDescription>
             <CardDescription className="hidden lg:block">
               <p className="text-md">Total Hours: 120 | Streak: 5 days</p>
@@ -116,7 +116,7 @@ const Topbar = () => {
                       <div className="flex gap-3">
                         <Input
                           onChange={() => {
-                            setError(false);
+                            setError("");
                           }}
                           type="number"
                           id="hours"
@@ -126,7 +126,7 @@ const Topbar = () => {
                         />
                         <Input
                           onChange={() => {
-                            setError(false);
+                            setError("");
                           }}
                           type="number"
                           id="minutes"
