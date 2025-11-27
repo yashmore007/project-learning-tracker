@@ -41,7 +41,6 @@ const Topbar = () => {
     e.preventDefault();
     try {
       const formData = new FormData(e.currentTarget);
-      console.log(formData);
 
       const hours = formData.get("hours");
       const minutes = formData.get("minutes");

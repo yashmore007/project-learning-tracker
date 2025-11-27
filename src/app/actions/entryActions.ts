@@ -2,12 +2,16 @@
 
 import { prisma } from "@/lib/prisma";
 
-export async function createEntry(formData) {
-  const title = formData.get("title");
-  const hours = formData.get("hours");
-  const minutes = formData.get("minutes");
-  const notes = formData.get("notes");
-  const duration = Number(hours * 60 + minutes);
+export async function createEntry(formData: FormData) {
+  const hours = Number(formData.get("hours") || 0);
+  const minutes = Number(formData.get("minutes") || 0);
+  const duration = hours * 60 + minutes;
+
+  const titleRaw = formData.get("title");
+  const notesRaw = formData.get("notes");
+
+  const title = typeof titleRaw === "string" ? titleRaw : "";
+  const notes = typeof notesRaw === "string" ? notesRaw : null;
 
   const entry = await prisma.entry.create({
     data: {
