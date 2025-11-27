@@ -9,9 +9,8 @@ datasource db {
 
 model Entry {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  date      DateTime
-  category  String
+  title  String
   duration  Int
-  reflection String?
+  notes String?
   createdAt DateTime @default(now())
 }
