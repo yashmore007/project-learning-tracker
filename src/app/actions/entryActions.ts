@@ -1,8 +1,15 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/auth";
 
 export async function createEntry(formData: FormData) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error("Unauthorized");
+  }
+
   const hours = Number(formData.get("hours") || 0);
   const minutes = Number(formData.get("minutes") || 0);
   const duration = hours * 60 + minutes;
@@ -18,6 +25,7 @@ export async function createEntry(formData: FormData) {
       title,
       duration,
       notes,
+      userId: session.user.id,
     },
   });
 

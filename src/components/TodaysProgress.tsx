@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Card,
   CardContent,
@@ -7,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
 import { useEffect, useState } from "react";
 import { useEntryStore } from "@/lib/store";
 
@@ -27,9 +25,11 @@ export default function TodaysProgress() {
 
         const json = await res.json();
 
+        console.log(json);
+
         // Ensure json.data exists and is an array
 
-        setEntries(json.data);
+        setEntries(json.entries);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -53,18 +53,12 @@ export default function TodaysProgress() {
       </CardHeader>
       <CardContent>
         {isLoading && <p>Loading...</p>}
-        {entries.map((entry) => {
-          return <div key={entry.id}>{entry.title}</div>;
-        })}
+        {entries
+          ? entries.map((entry) => {
+              return <div key={entry.id}>{entry.title}</div>;
+            })
+          : ""}
       </CardContent>
-      {/* <CardFooter className="flex-col gap-2">
-        <Button type="submit" className="w-full">
-          Login
-        </Button>
-        <Button variant="outline" className="w-full">
-          Login with Google
-        </Button>
-      </CardFooter> */}
     </Card>
   );
 }

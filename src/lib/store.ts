@@ -1,12 +1,5 @@
 import { create } from "zustand";
-
-type Entry = {
-  id: string;
-  title: string;
-  duration: number;
-  notes: string | null;
-  createdAt: Date;
-};
+import { Entry } from "@prisma/client";
 
 interface EntryStore {
   entries: Entry[];
@@ -17,10 +10,13 @@ interface EntryStore {
 export const useEntryStore = create<EntryStore>((set) => ({
   entries: [],
 
-  setEntries: (entries) => set({ entries }),
+  setEntries: (entries) => {
+    set({ entries });
+  },
 
-  addEntry: (entry) =>
+  addEntry: (entry) => {
     set((state) => ({
       entries: [entry, ...state.entries],
-    })),
+    }));
+  },
 }));

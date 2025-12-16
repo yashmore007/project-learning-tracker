@@ -1,7 +1,7 @@
 import { signIn } from "@/auth";
 import { Button } from "@/components/ui/button";
 
-export default async function Navbar() {
+export default function Navbar() {
   return (
     <div className="w-screen flex justify-center sm:justify-end items-center h-20 bg-blue-300">
       <form

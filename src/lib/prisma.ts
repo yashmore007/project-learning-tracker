@@ -4,7 +4,7 @@ declare global {
   var prisma: PrismaClient | undefined;
 }
 
-const globalForPrisma = global;
+const globalForPrisma = globalThis;
 
 export const prisma = globalForPrisma.prisma || new PrismaClient();
 

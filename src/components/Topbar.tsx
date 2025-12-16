@@ -33,6 +33,8 @@ const Topbar = () => {
   const { data: session } = useSession();
   const [error, setError] = useState("");
 
+  console.log(session);
+
   const [open, setOpen] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -78,7 +80,7 @@ const Topbar = () => {
             </div>
 
             <CardDescription className="hidden lg:block ">
-              Level 3 - Consistent Learner 🔥
+              Level 3 Consistent Learner 🔥
             </CardDescription>
             <CardDescription className="hidden lg:block">
               <p className="text-md">Total Hours: 120 | Streak: 5 days</p>
