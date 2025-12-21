@@ -9,3 +9,4 @@
 | 6     | Nov 12, 2025 | [Day 6](journals/day-6.md)         | ✅ Done |
 | 7-11  | Nov 16, 2025 | [Day 7-11](journals/day-7-11.md)   | ✅ Done |
 | 12-42 | Dec 17, 2025 | [Day 12-42](journals/day-12-42.md) | ✅ Done |
+| 43-46 | Dec 21, 2025 | [Day 43-46](journals/day-43-46.md) | ✅ Done |
