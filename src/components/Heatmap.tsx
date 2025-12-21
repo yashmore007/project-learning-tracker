@@ -52,9 +52,7 @@ const Heatmap = () => {
           count,
         }));
 
-        const finalDatesResult = [...formattedUniqueDates];
-
-        setFormattedDates(finalDatesResult);
+        setFormattedDates(formattedUniqueDates);
       } catch (error) {
         console.error("Error fetching dates:", error);
       }
