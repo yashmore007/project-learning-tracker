@@ -29,6 +29,7 @@ import { useEntryStore } from "@/lib/store";
 
 const Topbar = () => {
   const addEntries = useEntryStore((state) => state.addEntry);
+  const setTodaysDates = useEntryStore((state) => state.setTodaysDates);
 
   const { data: session } = useSession();
   const [error, setError] = useState("");
@@ -37,6 +38,15 @@ const Topbar = () => {
 
   const [open, setOpen] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const formattedDate = `${year}/${month}/${day}`;
+    return { date: formattedDate, count: 2 };
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log("handle submit called");
@@ -53,7 +63,13 @@ const Topbar = () => {
       }
 
       const result = await createEntry(formData);
+
+      const correctDateFormat = formatDate(result.createdAt.toString());
+
       addEntries(result);
+
+      setTodaysDates(correctDateFormat);
+
       formRef.current?.reset();
       setOpen(false);
     } catch (err) {
