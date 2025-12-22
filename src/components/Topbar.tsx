@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Card,
   CardAction,
@@ -31,10 +31,115 @@ const Topbar = () => {
   const addEntries = useEntryStore((state) => state.addEntry);
   const setTodaysDates = useEntryStore((state) => state.setTodaysDates);
 
+  const [durationInHours, setDurationInHours] = useState<number>(0);
+  const [streak, setStreak] = useState(0);
+
+  function calculateCurrentStreak(dateArray: []) {
+    // Remove duplicates and sort descending (most recent first)
+    const uniqueDates = [...new Set(dateArray)].sort(
+      (a, b) => new Date(b).getTime() - new Date(a).getTime()
+    );
+
+    if (uniqueDates.length === 0) return 0;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const mostRecent = new Date(uniqueDates[0]);
+    mostRecent.setHours(0, 0, 0, 0);
+
+    // Check if streak is still active (today or yesterday)
+    const daysSinceLastActivity = Math.floor(
+      (+today - +mostRecent) / (1000 * 60 * 60 * 24)
+    );
+
+    if (daysSinceLastActivity > 1) return 0; // Streak broken
+
+    let streak = 1;
+
+    // Count consecutive days backwards
+    for (let i = 1; i < uniqueDates.length; i++) {
+      const currentDate = new Date(uniqueDates[i]);
+      const previousDate = new Date(uniqueDates[i - 1]);
+
+      const diffDays = Math.floor(
+        (+previousDate - +currentDate) / (1000 * 60 * 60 * 24)
+      );
+
+      if (diffDays === 1) {
+        streak++;
+      } else {
+        break; // Streak ended
+      }
+    }
+
+    return streak;
+  }
+
+  useEffect(() => {
+    const fetchDuration = async () => {
+      try {
+        const res = await fetch("/api/getHours");
+
+        if (!res.ok) {
+          throw new Error(`HTTP error status ${res.status}`);
+        }
+
+        const json = await res.json();
+
+        interface currObj {
+          duration: string;
+        }
+
+        const totalOfDurationInMinutes = json.entries.reduce(
+          (acc: number, curr: currObj) => {
+            return acc + curr.duration;
+          },
+          0
+        );
+
+        const totalOfDurationInHours = totalOfDurationInMinutes / 60;
+
+        setDurationInHours(totalOfDurationInHours);
+      } catch (err) {
+        console.error("Error fetching duration", err);
+      }
+    };
+    fetchDuration();
+  });
+
+  useEffect(() => {
+    const fetchStreak = async () => {
+      try {
+        const res = await fetch("/api/streak");
+
+        if (!res.ok) {
+          throw new Error(`HTTP error status ${res.status}`);
+        }
+
+        const json = await res.json();
+
+        interface entryObj {
+          createdAt: string;
+        }
+
+        const dateFormat = json.entries.map((entry: entryObj) => {
+          return entry.createdAt.split("T")[0];
+        });
+
+        const streak = calculateCurrentStreak(dateFormat);
+
+        setStreak(streak);
+      } catch (err) {
+        console.error("Error feching streak data", err);
+      }
+    };
+
+    fetchStreak();
+  });
+
   const { data: session } = useSession();
   const [error, setError] = useState("");
-
-  console.log(session);
 
   const [open, setOpen] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
@@ -49,7 +154,6 @@ const Topbar = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("handle submit called");
     e.preventDefault();
     try {
       const formData = new FormData(e.currentTarget);
@@ -73,7 +177,7 @@ const Topbar = () => {
       formRef.current?.reset();
       setOpen(false);
     } catch (err) {
-      console.log("Error in submitting the form", err);
+      console.error("Error in submitting the form", err);
     }
   };
 
@@ -99,7 +203,10 @@ const Topbar = () => {
               Level 3 Consistent Learner 🔥
             </CardDescription>
             <CardDescription className="hidden lg:block">
-              <p className="text-md">Total Hours: 120 | Streak: 5 days</p>
+              <p className="text-md">
+                Total hours: {!durationInHours ? "Loading" : durationInHours} |
+                Streak: {streak} days
+              </p>
             </CardDescription>
           </div>
 
