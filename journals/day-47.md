@@ -26,7 +26,7 @@
   - Calculates the current streak of consecutive days.
   - Displays a message in the navbar (e.g., “🔥 5-day streak”) when applicable.
 
-🔗 **Commit:**
+🔗 **Commit:**[docs: update day-47 journal](https://github.com/yashmore007/project-learning-tracker/commit/0d57326678476a0dfea8339f140b5e839f259465)
 
 ### 🐞 Challenge & How I Solved It
 
